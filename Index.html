@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>identification page</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Special+Elite&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =====================================================
+           COLOR PALETTE
+        ===================================================== */
+        :root {
+            /* Document lines */
+            --red: #8d3f3f;
+            --dark-red: #713333;
+            /* Information / handwriting */
+            --blue: #304f83;
+            --dark-blue: #263e68;
+            /* Stamps */
+            --purple: #765878;
+            --purple-faded: rgba(118, 88, 120, 0.58);
+            /* Paper */
+            --paper: #d8d2bd;
+            --paper-dark: #c9c1aa;
+            --paper-light: #e1dcc9;
+            /* Text */
+            --black: #29251f;
+        }
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* =====================================================
+           BODY
+        ===================================================== */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            background: radial-gradient(circle at 15% 20%, rgba(255,255,255,.12), transparent 25%), radial-gradient(circle at 85% 80%, rgba(0,0,0,.12), transparent 30%), #817b6c;
+            color: var(--black);
+            font-family: "IBM Plex Mono", monospace;
+        }
+
+        /* =====================================================
+           BOOK
+        ===================================================== */
+        .book {
+            width: min(1250px, 96vw);
+            min-height: 850px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            background: linear-gradient(rgba(255,255,255,.08), rgba(0,0,0,.02)), var(--paper);
+            box-shadow: 0 25px 60px rgba(0,0,0,.38), 0 3px 8px rgba(0,0,0,.25);
+            overflow: hidden;
+        }
+
+        /* =====================================================
+           PAPER TEXTURE
+        ===================================================== */
+        .book::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: .10;
+            background-image: repeating-radial-gradient(circle at 0 0, transparent 0, transparent 2px, #000 3px);
+            z-index: 50;
+        }
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+        .page {
+            min-width: 0;
+            min-height: 850px;
+            padding: 32px;
+            position: relative;
+        }
+
+        /* =====================================================
+           LEFT PAGE
+        ===================================================== */
+        .left-page {
+            border-right: 1px solid var(--red);
+            box-shadow: inset -12px 0 20px rgba(0,0,0,.07);
+        }
+
+        /* =====================================================
+           RIGHT PAGE
+        ===================================================== */
+        .right-page {
+            box-shadow: inset 12px 0 20px rgba(0,0,0,.045);
+        }
+
+        /* =====================================================
+           CENTER BINDING
+        ===================================================== */
+        .spine {
+            position: absolute;
+            width: 7px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, rgba(0,0,0,.04), rgba(70,60,45,.25), rgba(255,255,255,.08), rgba(0,0,0,.04));
+            z-index: 30;
+            pointer-events: none;
+        }
+
+        /* =====================================================
+           DOCUMENT HEADER
+        ===================================================== */
+        .document-header {
+            border: 2px solid var(--red);
+            margin-bottom: 12px;
+        }
+        .header-top {
+            display: grid;
+            grid-template-columns: 45px 1fr 80px;
+            min-height: 45px;
+        }
+        .page-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid var(--red);
+            color: var(--red);
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .document-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--red);
+            font-family: "Special Elite", monospace;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        .document-code {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid var(--red);
+            color: var(--red);
+            font-size: 9px;
+        }
+        .header-subtitle {
+            padding: 7px;
+            border-top: 1px solid var(--red);
+            text-align: center;
+            color: var(--red);
+            font-size: 8px;
+            letter-spacing: 2px;
+        }
+
+        /* =====================================================
+           PROFILE PHOTO
+        ===================================================== */
+        .photo-area {
+            display: flex;
+            justify-content: center;
+            margin: 22px 0 12px;
+        }
+        .photo-frame {
+            width: 175px;
+            height: 220px;
+            padding: 7px;
+            border: 2px solid var(--red);
+            background: var(--paper-dark);
+            position: relative;
+        }
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid #575249;
+            filter: grayscale(100%) sepia(8%) contrast(1.05);
+        }
+
+        /* =====================================================
+           PROFILE NAME
+        ===================================================== */
+        .profile-name {
+            text-align: center;
+            color: var(--red);
+            font-family: "Special Elite", monospace;
+            font-size: 25px;
+            letter-spacing: 2px;
+            margin-bottom: 3px;
+        }
+        .profile-role {
+            text-align: center;
+            color: var(--red);
+            font-size: 9px;
+            margin-bottom: 15px;
+        }
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--red);
+        }
+        .info-table td {
+            border: 1px solid var(--red);
+            padding: 7px 8px;
+            vertical-align: top;
+        }
+        .info-label {
+            width: 34%;
+            color: var(--red);
+            font-size: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .info-value {
+            color: var(--blue);
+            font-family: "Special Elite", "IBM Plex Mono", monospace;
+            font-size: 11px;
+        }
+
+        /* =====================================================
+           DESCRIPTION
+        ===================================================== */
+        .description-box {
+            margin-top: 13px;
+            border: 1px solid var(--red);
+        }
+        .description-title {
+            padding: 6px 8px;
+            border-bottom: 1px solid var(--red);
+            color: var(--red);
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .description-text {
+            padding: 10px;
+            color: var(--blue);
+            font-family: "Special Elite", "IBM Plex Mono", monospace;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           SKILLS
+        ===================================================== */
+        .skills-box {
+            margin-top: 13px;
+            border: 1px solid var(--red);
+        }
+        .skills-title {
+            padding: 6px 8px;
+            border-bottom: 1px solid var(--red);
+            color: var(--red);
+            font-size: 8px;
+            font-weight: 600;
+        }
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+        }
+        .skill {
+            padding: 6px 8px;
+            border-right: 1px solid var(--red);
+            border-bottom: 1px solid var(--red);
+            color: var(--blue);
+            font-family: "Special Elite", monospace;
+            font-size: 9px;
+        }
+
+        /* =====================================================
+           SECTION HEADER
+        ===================================================== */
+        .section {
+            margin-bottom: 22px;
+        }
+        .section-header {
+            display: grid;
+            grid-template-columns: 30px 1fr;
+            margin-bottom: 10px;
+            border: 2px solid var(--red);
+        }
+        .section-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid var(--red);
+            color: var(--red);
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .section-name {
+            padding: 7px 10px;
+            color: var(--red);
+            font-family: "Special Elite", monospace;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        /* =====================================================
+           INFORMATION ROW
+        ===================================================== */
+        .record {
+            display: grid;
+            grid-template-columns: 95px 1fr;
+            border: 1px solid var(--red);
+            border-bottom: none;
+        }
+        .record:last-child {
+            border-bottom: 1px solid var(--red);
+        }
+        .record-date {
+            padding: 8px;
+            border-right: 1px solid var(--red);
+            color: var(--red);
+            font-size: 8px;
+            font-weight: 600;
+        }
+        .record-content {
+            padding: 8px;
+            color: var(--blue);
+        }
+        .record-title {
+            color: var(--blue);
+            font-family: "Special Elite", monospace;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+        .record-description {
+            color: var(--blue);
+            font-family: "Special Elite", monospace;
+            font-size: 9px;
+            line-height: 1.55;
+        }
+
+        /* =====================================================
+           PROJECT TABLE
+        ===================================================== */
+        .projects {
+            border: 1px solid var(--red);
+        }
+        .project {
+            display: grid;
+            grid-template-columns: 35px 1fr;
+            border-bottom: 1px solid var(--red);
+        }
+        .project:last-child {
+            border-bottom: none;
+        }
+        .project-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid var(--red);
+            color: var(--red);
+            font-size: 9px;
+        }
+        .project-information {
+            padding: 8px;
+        }
+        .project-title {
+            color: var(--blue);
+            font-family: "Special Elite", monospace;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        .project-description {
+            color: var(--blue);
+            font-family: "Special Elite", monospace;
+            font-size: 9px;
+            line-height: 1.5;
+        }
+        .project-tech {
+            margin-top: 5px;
+            color: var(--blue);
+            font-size: 8px;
+            letter-spacing: .5px;
+        }
+
+        /* =====================================================
+           STAMPS
+        ===================================================== */
+        .stamp {
+            position: absolute;
+            color: var(--purple);
+            border: 3px solid var(--purple);
+            padding: 7px 12px;
+            font-family: "Special Elite", monospace;
+            font-size: 14px;
+            letter-spacing: 2px;
+            transform: rotate(-8deg);
+            opacity: .7;
+            mix-blend-mode: multiply;
+        }
+        .stamp-profile {
+            right: 22px;
+            bottom: 85px;
+        }
+        .stamp-record {
+            right: 30px;
+            top: 180px;
+            transform: rotate(6deg);
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+        .document-footer {
+            position: absolute;
+            left: 32px;
+            right: 32px;
+            bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            padding-top: 6px;
+            border-top: 1px solid var(--red);
+            color: var(--red);
+            font-size: 7px;
+            letter-spacing: 1px;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+        @media (max-width: 850px) {
+            body { align-items: flex-start; padding: 15px 8px; }
+            .book { width: 100%; grid-template-columns: 1fr; }
+            .spine { display: none; }
+            .page { min-height: auto; padding: 25px; }
+            .left-page { border-right: none; border-bottom: 1px solid var(--red); }
+            .photo-frame { width: 160px; height: 200px; }
+            .document-footer { position: relative; left: auto; right: auto; bottom: auto; margin-top: 25px; }
+            .stamp { position: relative; right: auto; left: auto; top: auto; bottom: auto; display: inline-block; margin-top: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+<!-- =====================================================
+     OPEN BOOK
+===================================================== -->
+<div class="book">
+    <!-- CENTER SPINE -->
+    <div class="spine"></div>
+
+    <!-- =================================================
+         LEFT PAGE — PROFILE
+    ================================================== -->
+    <section class="page left-page">
+        <!-- HEADER -->
+        <div class="document-header">
+            <div class="header-top">
+                <div class="page-number">1</div>
+                <div class="document-title">PERSONAL RECORD</div>
+                <div class="document-code">001</div>
+            </div>
+            <div class="header-subtitle">IDENTIFICATION & PERSONAL INFORMATION</div>
+        </div>
+
+        <!-- PHOTO -->
+        <div class="photo-area">
+            <div class="photo-frame">
+                <!-- CHANGE THIS TO YOUR PHOTO Example: images/profile.jpg -->
+                <img src="Profile image.jpeg" alt="Azka">
+            </div>
+        </div>
+
+        <!-- NAME -->
+        <div class="profile-name">AZKA A. P.</div>
+        <div class="profile-role">INFORMATION SYSTEMS STUDENT</div>
+
+        <!-- PERSONAL INFORMATION -->
+        <table class="info-table">
+            <tr>
+                <td class="info-label">Name</td>
+                <td class="info-value">Azka Azizurrachman Pramuditta</td>
+            </tr>
+            <tr>
+                <td class="info-label">Field</td>
+                <td class="info-value">Information Systems</td>
+            </tr>
+            <tr>
+                <td class="info-label">Specialization</td>
+                <td class="info-value">Enterprise Resource Planning</td>
+            </tr>
+            <tr>
+                <td class="info-label">Status</td>
+                <td class="info-value">Student / Developer</td>
+            </tr>
+            <tr>
+                <td class="info-label">Location</td>
+                <td class="info-value">Indonesia</td>
+            </tr>
+        </table>
+
+        <!-- DESCRIPTION -->
+        <div class="description-box">
+            <div class="description-title">PERSONAL DESCRIPTION</div>
+            <div class="description-text">
+                Information Systems student at Bina Nusantara University specializing in Enterprise resource Planning . 
+                Completed SAP ABAP training focused on ABAP development while gaining knowledge of core SAP business processes. 
+                Experienced in developing web applications and understanding Cloud Computing fundamentals such as AWS services.
+            </div>
+        </div>
+
+        <!-- PROGRAMMING -->
+        <div class="skills-box">
+            <div class="skills-title">PROGRAMMING LANGUAGES & SOFTWARES</div>
+            <div class="skills">
+                <span class="skill">Python</span>
+                <span class="skill">PHP</span>
+                <span class="skill">SQL</span>
+                <span class="skill">HTML</span>
+                <span class="skill">CSS</span>
+                <span class="skill">ABAP</span>
+                <span class="skill">AWS</span>
+            </div>
+        </div>
+
+        <!-- STAMP -->
+        <div class="stamp stamp-profile">VERIFIED</div>
+
+        <!-- FOOTER -->
+        <div class="document-footer">
+            <span>PERSONAL RECORD</span>
+            <span>PAGE 01</span>
+        </div>
+    </section>
+
+    <!-- =================================================
+         RIGHT PAGE — EDUCATION / EXPERIENCE / PROJECTS
+    ================================================== -->
+    <section class="page right-page">
+        <!-- HEADER -->
+        <div class="document-header">
+            <div class="header-top">
+                <div class="page-number">2</div>
+                <div class="document-title">PROFESSIONAL RECORD</div>
+                <div class="document-code">002</div>
+            </div>
+            <div class="header-subtitle">EDUCATION · EXPERIENCE · PROJECTS & CERTIFICATION</div>
+        </div>
+
+        <!-- =================================================
+             EDUCATION
+        ================================================== -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">I</div>
+                <div class="section-name">EDUCATION</div>
+            </div>
+            <div class="record">
+                <div class="record-date">2022 —<br>PRESENT</div>
+                <div class="record-content">
+                    <div class="record-title">BINUS UNIVERSITY</div>
+                    <div class="record-description">Bachelor of Information Systems. Focus on Cloud Computing, information systems and software development.</div>
+                </div>
+            </div>
+            <div class="record">
+                <div class="record-date">MAY 2026 - SEPTEMBER - 2026</div>
+                <div class="record-content">
+                    <div class="record-title">SAP / ABAP TRAINING</div>
+                    <div class="record-description">Worked with SAP development concepts, ABAP programming and enterprise information systems.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================
+             EXPERIENCE
+        ================================================== -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">II</div>
+                <div class="section-name">TRAINING & CERTIFICATION</div>
+            </div>
+            <div class="record">
+                <div class="record-date">JUNE 2026 - JUNE 2026</div>
+                <div class="record-content">
+                    <div class="record-title">BASIC ABAP TRAINING (SAP INTERFACE)</div>
+                    <div class="record-description">SAP fundamentals and ABAP programming including reports, ALV and dialog programming.</div>
+                </div>
+            </div>
+            <div class="record">
+                <div class="record-date">AUGUST 2026 - SEPTEMBER 2026</div>
+                <div class="record-content">
+                    <div class="record-title">ADVANCED ABAP TRAINING (SAP INTERFACE)</div>
+                    <div class="record-description">N/A</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================
+             PROJECTS
+        ================================================== -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">III</div>
+                <div class="section-name">PROJECTS</div>
+            </div>
+            <div class="projects">
+                <!-- PROJECT 1 -->
+                <div class="project">
+                    <div class="project-number">01</div>
+                    <div class="project-information">
+                        <div class="project-title">KENANGIN KOPI</div>
+                        <div class="project-description">Coffee marketplace web application.</div>
+                        <div class="project-tech">WEB - HTML, CSS, PHP, MYSQL</div>
+                    </div>
+                </div>
+                <!-- PROJECT 2 -->
+                <div class="project">
+                    <div class="project-number">02</div>
+                    <div class="project-information">
+                        <div class="project-title">SPACE TO GO</div>
+                        <div class="project-description">Parking reservation system.</div>
+                        <div class="project-tech">WEB - HTML, CSS, PHP, MYSQL</div>
+                    </div>
+                </div>
+                <!-- PROJECT 3 -->
+                <div class="project">
+                    <div class="project-number">03</div>
+                    <div class="project-information">
+                        <div class="project-title">SAP INTERFACE</div>
+                        <div class="project-description">SAP reports, ALV and dialog programming.</div>
+                        <div class="project-tech">ERP - ABAP(SAP)</div>
+                    </div>
+                </div>
+                <!-- PROJECT 4 -->
+                <div class="project">
+                    <div class="project-number">04</div>
+                    <div class="project-information">
+                        <div class="project-title">AWS ACADEMY</div>
+                        <div class="project-description">Cloud infrastructure, database and AWS services.</div>
+                        <div class="project-tech">AWS · AWS INSTANCES</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAMP -->
+        <div class="stamp stamp-record">EDUCATION</div>
+
+        <!-- FOOTER -->
+        <div class="document-footer">
+            <span>PROFESSIONAL RECORD</span>
+            <span>PAGE 02</span>
+        </div>
+    </section>
+</div>
+</body>
+</html>
